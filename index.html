@@ -14,29 +14,104 @@
         <h1 class="col-12 text-light shadow bg-primary text-center pb-1">City Weather Dashboard</h1>
     </header>
     <main class="row">
-        <section id="searchSection" class="col-12 col-md-3 col-xl-4 bg-light shadow">
+        <section id="searchSection" class="col-12 col-md-6">
             <!--Form-->
-            <div class="border-secondary shadow rounded-sm">
+            <div class="border-secondary shadow-sm rounded-sm">
                 <div class="rounded-sm d-flex flex-column align-items-center m-3 p-3">
                     <h2 class="text-center text-light bg-primary rounded-sm text-center p-2 w-100" style="font-size: large">Search for a city</h2>
                     <form action="" class="w-100 d-flex align-items-center">
                         <!--Icon here?-->
                         <input type="text" id="cityName" class="form-control m-2" placeholder="City Name">
-                        <button class="btn btn-primary text-light" type="submit">Search</button>
+                        <button class="btn btn-dark text-light" type="submit">Search</button>
                     </form>
                 </div>
-                <div class="rounded-sm d-flex flex-column align-items-center justify-content-center m-3 my-4 p-3">
-                    <h3 class="text-secondary text-center">
-                        No search history
-                    </h3>
-                </div>
-
             </div>
-
-            <!--Search history-->
-
+            <div class="rounded-sm d-flex flex-column align-items-center justify-content-center p-3 shadow-sm">
+                <h3 class="text-secondary text-center">
+                    No search history
+                </h3>
+            </div>
         </section>
-
+        <!--Weather section-->
+        <section id="weatherSection" class="col-12 col-md-6">
+            <div id="mainWeather">
+                <h3>Phoenix</h3> <!--Icon-->
+                <span>01/29/2022</span>
+                <ul class="weather-data d-flex flex-column">
+                    <li class="weather-data-item d-flex align-items-center m-1 p-1 bg-light">
+                        <h4 class="weather-item-heading">Temp:</h4>
+                        <span class="weather-item-value mx-2">74</span>
+                        <span class="weather-item-units"> degrees Fahrenheit</span>
+                    </li>
+                    <li class="weather-data-item d-flex align-items-center m-1 p-1 bg-light">
+                        <h4 class="weather-item-heading">Wind:</h4>
+                        <span class="weather-item-value mx-2">9</span>
+                        <span class="weather-item-units"> mph</span>
+                    </li>
+                    <li class="weather-data-item d-flex align-items-center m-1 p-1 bg-light">
+                        <h4 class="weather-item-heading">Humidity:</h4>
+                        <span class="weather-item-value mx-2">8</span>
+                        <span class="weather-item-units"> %</span>
+                    </li>
+                    <li class="weather-data-item d-flex align-items-center m-1 p-1 bg-light">
+                        <h4 class="weather-item-heading">UV-index</h4>
+                        <span class="weather-item-value mx-2">Good</span>
+                        <span class="weather-item-units"></span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <!--5-day forecast-->
+        <section id="forecast" class="col-12">
+            <h3 class="text-center bg-primary text-light w-100">5-Day Forecast</h3>
+            <div class="d-flex justify-content-center">
+                <div class="card mx-auto" style="width: 18vw">
+                    <h4 class="card-title bg-secondary text-white text-center shadow">Monday</h4>
+                    <div class="card-body">
+                        <p class="card-text">Temperature</p>
+                        <p class="card-text">Wind</p>
+                        <p class="card-text">Humidity</p>
+                    </div>
+                    
+                </div>
+                <div class="card mx-auto" style="width: 18vw">
+                    <h4 class="card-title bg-secondary text-white text-center shadow">Monday</h4>
+                    <div class="card-body">
+                        <p class="card-text">Temperature</p>
+                        <p class="card-text">Wind</p>
+                        <p class="card-text">Humidity</p>
+                    </div>
+                    
+                </div>
+                <div class="card mx-auto" style="width: 18vw">
+                    <h4 class="card-title bg-secondary text-white text-center shadow">Monday</h4>
+                    <div class="card-body">
+                        <p class="card-text">Temperature</p>
+                        <p class="card-text">Wind</p>
+                        <p class="card-text">Humidity</p>
+                    </div>
+                    
+                </div>
+                <div class="card mx-auto" style="width: 18vw">
+                    <h4 class="card-title bg-secondary text-white text-center shadow">Monday</h4>
+                    <div class="card-body">
+                        <p class="card-text">Temperature</p>
+                        <p class="card-text">Wind</p>
+                        <p class="card-text">Humidity</p>
+                    </div>
+                    
+                </div>
+                <div class="card mx-auto" style="width: 18vw">
+                    <h4 class="card-title bg-secondary text-white text-center shadow">Monday</h4>
+                    <div class="card-body">
+                        <p class="card-text">Temperature</p>
+                        <p class="card-text">Wind</p>
+                        <p class="card-text">Humidity</p>
+                    </div>
+                    
+                </div>
+            </div>         
+        </section>
     </main>
 
     <!--Bootstrap dependencies, jQuery, and script file-->
