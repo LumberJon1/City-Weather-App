@@ -27,7 +27,7 @@ var displayWeather = function(event) {
                         console.log(data2);
 
                         //Current day's values
-                        var date = ""; //Maybe use moment.js?
+                        var date = "01/29/2022"; //Maybe use moment.js?
                         var temp = data2.current.temp;
                         var wind = data2.current.wind_speed;
                         var humidity = data2.current.humidity;
@@ -42,8 +42,71 @@ var displayWeather = function(event) {
                         console.log(icon);
 
                         //Create the parent div that will hold current city weather info
-                        if ($("#mainWeather").children("h3").text() === "") {
-                            console.log("No text content in main weather section."); 
+                        var mainWeatherDiv = $("#mainWeather");
+                        if (mainWeatherDiv.children("h3").text() === "") {
+                            console.log("No text content in main weather section.");
+
+                            //Define elements and their values...
+                            var mainHeader = $("<h3>").text(cityInput);
+                            var currentWeatherDate = $("<span>").text(date);
+                            var currentWeatherList = $("<ul>")
+                                .addClass("weather-data px-0 py-1");
+
+                            //For each <li> element, generate its content and append to the <ul>
+                            //temperature li...
+                            var currentTempLi = $("<li>")
+                                .addClass("weather-data-item d-flex align-items-center m-1 p-1 bg-light");
+                            var tempLiContent = $("<h4>").addClass("weather-item-heading").text("Temperature:");
+                            var tempSpan = $("<span>").addClass("weather-item-value mx-2")
+                                .text(temp+" degrees Fahrenheit");
+                            //Append h4 and span value to li
+                            currentTempLi.append(tempLiContent);
+                            currentTempLi.append(tempSpan);
+
+                            //wind li...
+                            var currentWindLi = $("<li>")
+                                .addClass("weather-data-item d-flex align-items-center m-1 p-1 bg-light");
+                            var windLiContent = $("<h4>").addClass("weather-item-heading").text("Wind Speed:");
+                            var windSpan = $("<span>").addClass("weather-item-value mx-2")
+                                .text(wind+" mph");
+                            //Append h4 and span value to li
+                            currentWindLi.append(windLiContent);
+                            currentWindLi.append(windSpan);
+
+                            //Humidity li...
+                            var currentHumidityLi = $("<li>")
+                                .addClass("weather-data-item d-flex align-items-center m-1 p-1 bg-light");
+                            var humidityLiContent = $("<h4>").addClass("weather-item-heading").text("Humidity:");
+                            var humiditySpan = $("<span>").addClass("weather-item-value mx-2")
+                                .text(humidity+"%");
+                            //Append h4 and span value to li
+                            currentHumidityLi.append(humidityLiContent);
+                            currentHumidityLi.append(humiditySpan);                            
+
+                            //UV-index li...
+                            var currentUVLi = $("<li>")
+                                .addClass("weather-data-item d-flex align-items-center m-1 p-1 bg-light");
+                            var uvLiContent = $("<h4>").addClass("weather-item-heading").text("UV Index:");
+                            var uvSpan = $("<span>").addClass("weather-item-value mx-2")
+                                .text(uvIndex);
+
+                            //TODO: Determine what color coded class to apply based on UV index
+
+
+                            //Append h4 and span value to li
+                            currentUVLi.append(uvLiContent);
+                            currentUVLi.append(uvSpan);
+
+                            //Append list items to ul
+                            currentWeatherList.append(currentTempLi);
+                            currentWeatherList.append(currentWindLi);
+                            currentWeatherList.append(currentHumidityLi);
+                            currentWeatherList.append(currentUVLi);
+
+                            //Append h3, date, and ul to the main weather div
+                            mainWeatherDiv.append(mainHeader);
+                            mainWeatherDiv.append(currentWeatherDate);
+                            mainWeatherDiv.append(currentWeatherList);
                         }
                         else {
                             console.log($("#mainWeather").children("h3").text());
