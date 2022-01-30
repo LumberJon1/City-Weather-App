@@ -125,10 +125,96 @@ var displayWeather = function(event) {
 
                         //Loop through each of the next 5 days' forecast values and add them to
                         //the DOM in the forecast cards section
-                        //check whether the cards already exist
-                        //If they do, simply modify their textContent
-                        //Else, create new cards and modify their content.  Be sure to add all classes.
+                        var forecastDiv = $("#forecast-card-div");
+                        console.log(data2);
 
+                        //check whether the cards already exist
+                        if (forecastDiv.children("h4").text() === "") {
+                            console.log("No forecast present.  Generating elements...");
+                            var forecastArray = data2.daily;
+                            //We only want a 5 day forecast, but we could use other values.
+                            for (var i = 0; i < 5; i++) {
+                                
+                                //Get values for each day's attributes
+                                var dayTemp = forecastArray[i].temp.day;
+                                var dayWind = forecastArray[i].wind_speed;
+                                var dayHumid = forecastArray[i].humidity;
+                                //var dayIcon = forecastArray[i][0].icon;
+
+                                //Use the values to populate new elements
+                                var cardDiv = $("<div>").addClass("card mx-auto")
+                                    .attr("style", "width: 18vw");
+                                
+                                var cardTitle = $("<h4>").addClass("card-title bg-secondary text-white text-center shadow")
+                                    .text("Day "+i);
+
+                                var cardBodyDiv = $("<div>").addClass("card-body");
+                                var tempP = $("<p>").addClass("card-text").text(dayTemp+" degrees");
+                                var windP = $("<p>").addClass("card-text").text(dayWind+" mph");
+                                var humidP = $("<p>").addClass("card-text").text(dayHumid+"%");
+
+                                //Append
+                                cardBodyDiv.append(tempP);
+                                cardBodyDiv.append(windP);
+                                cardBodyDiv.append(humidP);
+                                cardDiv.append(cardTitle);
+                                cardDiv.append(cardBodyDiv);
+
+                                forecastDiv.append(cardDiv);
+                            }    
+                        }
+                        //If they do, simply modify their textContent
+                        else {
+                            console.log("Modifying forecast card contents...");
+                        }
+                        
+                        /*
+                        <div class="card mx-auto" style="width: 18vw">
+                            <h4 class="card-title bg-secondary text-white text-center shadow">Monday</h4>
+                            <div class="card-body">
+                                <p class="card-text">Temperature</p>
+                                <p class="card-text">Wind</p>
+                                <p class="card-text">Humidity</p>
+                            </div>
+                            
+                        </div>
+                        <div class="card mx-auto" style="width: 18vw">
+                            <h4 class="card-title bg-secondary text-white text-center shadow">Monday</h4>
+                            <div class="card-body">
+                                <p class="card-text">Temperature</p>
+                                <p class="card-text">Wind</p>
+                                <p class="card-text">Humidity</p>
+                            </div>
+                            
+                        </div>
+                        <div class="card mx-auto" style="width: 18vw">
+                            <h4 class="card-title bg-secondary text-white text-center shadow">Monday</h4>
+                            <div class="card-body">
+                                <p class="card-text">Temperature</p>
+                                <p class="card-text">Wind</p>
+                                <p class="card-text">Humidity</p>
+                            </div>
+                            
+                        </div>
+                        <div class="card mx-auto" style="width: 18vw">
+                            <h4 class="card-title bg-secondary text-white text-center shadow">Monday</h4>
+                            <div class="card-body">
+                                <p class="card-text">Temperature</p>
+                                <p class="card-text">Wind</p>
+                                <p class="card-text">Humidity</p>
+                            </div>
+                            
+                        </div>
+                        <div class="card mx-auto" style="width: 18vw">
+                            <h4 class="card-title bg-secondary text-white text-center shadow">Monday</h4>
+                            <div class="card-body">
+                                <p class="card-text">Temperature</p>
+                                <p class="card-text">Wind</p>
+                                <p class="card-text">Humidity</p>
+                            </div>
+                            
+                        </div>
+                        */
                     })
                 })
             }
