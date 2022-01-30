@@ -1,6 +1,36 @@
 //variables to populate current date and days displayed in forecast
 var currentDate = moment().format("L");
 
+//List to append objects to and save to localStorage
+var searchHistory = [];
+
+//Function to load the city search history from localStorage
+var loadHistory = function() {
+    var searches = JSON.parse(localStorage.getItem("searches"));
+    console.log(searches);
+    for (var i = 0; i < searches.length; i++) {
+        console.log("searches[i]:", searches[i]);
+    };
+}
+
+//Function to send history to localStorage
+var saveSearch = function(searchItem) {
+    //Check whether the search term already exists in the local array and only push if it isn't
+    //a duplicate city.
+    if (searchHistory.includes(searchItem)) {
+        console.log("Duplicate detected.  Will not push duplicate.");
+        localStorage.setItem("searches", JSON.stringify(searchHistory));
+    }
+    else {
+        //If there is no duplicate, push
+        console.log("saving "+searchItem+" to searchHistory array...");
+        searchHistory.push(searchItem);
+        console.log("Saving array to localStorage...");
+        localStorage.setItem("searches", JSON.stringify(searchHistory));
+    }
+    console.log("Local storage now contains:", localStorage.getItem("searches"));
+}
+
 //form handler...
 var displayWeather = function(event) {
     event.preventDefault();
@@ -16,6 +46,10 @@ var displayWeather = function(event) {
         response.json().then(function(data) {
 
             if (response.ok) {
+
+                //Save the user's input to localStorage so it can be added to history
+                saveSearch(cityInput);
+
                 var lat = data.coord.lat;
                 var lon = data.coord.lon;
                 fetch("https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=imperial&appid="+apiKey).then(function(response2) {
