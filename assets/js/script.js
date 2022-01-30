@@ -55,7 +55,8 @@ var displayWeather = function(event) {
                             //For each <li> element, generate its content and append to the <ul>
                             //temperature li...
                             var currentTempLi = $("<li>")
-                                .addClass("weather-data-item d-flex align-items-center m-1 p-1 bg-light");
+                            .addClass("weather-data-item d-flex align-items-center m-1 p-1 bg-light")
+                            .attr("id", "temp-heading");
                             var tempLiContent = $("<h4>").addClass("weather-item-heading").text("Temperature:");
                             var tempSpan = $("<span>").addClass("weather-item-value mx-2")
                                 .text(temp+" degrees Fahrenheit");
@@ -65,7 +66,8 @@ var displayWeather = function(event) {
 
                             //wind li...
                             var currentWindLi = $("<li>")
-                                .addClass("weather-data-item d-flex align-items-center m-1 p-1 bg-light");
+                                .addClass("weather-data-item d-flex align-items-center m-1 p-1 bg-light")
+                                .attr("id", "wind-heading");
                             var windLiContent = $("<h4>").addClass("weather-item-heading").text("Wind Speed:");
                             var windSpan = $("<span>").addClass("weather-item-value mx-2")
                                 .text(wind+" mph");
@@ -75,7 +77,8 @@ var displayWeather = function(event) {
 
                             //Humidity li...
                             var currentHumidityLi = $("<li>")
-                                .addClass("weather-data-item d-flex align-items-center m-1 p-1 bg-light");
+                                .addClass("weather-data-item d-flex align-items-center m-1 p-1 bg-light")
+                                .attr("id", "humidity-heading");
                             var humidityLiContent = $("<h4>").addClass("weather-item-heading").text("Humidity:");
                             var humiditySpan = $("<span>").addClass("weather-item-value mx-2")
                                 .text(humidity+"%");
@@ -85,7 +88,8 @@ var displayWeather = function(event) {
 
                             //UV-index li...
                             var currentUVLi = $("<li>")
-                                .addClass("weather-data-item d-flex align-items-center m-1 p-1 bg-light");
+                                .addClass("weather-data-item d-flex align-items-center m-1 p-1 bg-light")
+                                .attr("id", "uv-heading");
                             var uvLiContent = $("<h4>").addClass("weather-item-heading").text("UV Index:");
                             var uvSpan = $("<span>").addClass("weather-item-value mx-2")
                                 .text(uvIndex);
@@ -109,35 +113,15 @@ var displayWeather = function(event) {
                             mainWeatherDiv.append(currentWeatherList);
                         }
                         else {
-                            console.log($("#mainWeather").children("h3").text());
-                        }
+                            $("#mainWeather").children("h3").text(cityInput);
+                            $("#temp-heading").children("span").text(temp+" degrees fahrenheit");
+                            $("#wind-heading").children("span").text(wind+" mph");
+                            $("#humidity-heading").children("span").text(humidity+"%");
+                            $("#uv-heading").children("span").text(uvIndex);
 
-                        /*
-                        <h3>Phoenix</h3> <!--Icon-->
-                        <span>01/29/2022</span>
-                        <ul class="weather-data px-0 py-1">
-                            <li class="weather-data-item d-flex align-items-center m-1 p-1 bg-light">
-                                <h4 class="weather-item-heading">Temp:</h4>
-                                <span class="weather-item-value mx-2">74</span>
-                                <span class="weather-item-units"> degrees Fahrenheit</span>
-                            </li>
-                            <li class="weather-data-item d-flex align-items-center m-1 p-1 bg-light">
-                                <h4 class="weather-item-heading">Wind:</h4>
-                                <span class="weather-item-value mx-2">9</span>
-                                <span class="weather-item-units"> mph</span>
-                            </li>
-                            <li class="weather-data-item d-flex align-items-center m-1 p-1 bg-light">
-                                <h4 class="weather-item-heading">Humidity:</h4>
-                                <span class="weather-item-value mx-2">8</span>
-                                <span class="weather-item-units"> %</span>
-                            </li>
-                            <li class="weather-data-item d-flex align-items-center m-1 p-1 bg-light">
-                                <h4 class="weather-item-heading">UV-index</h4>
-                                <span class="weather-item-value mx-2">Good</span>
-                                <span class="weather-item-units"></span>
-                            </li>
-                        </ul>
-                        */
+                            //Don't forget to replace the class assigned to the uv index
+
+                        }
 
                         //Loop through each of the next 5 days' forecast values and add them to
                         //the DOM in the forecast cards section
