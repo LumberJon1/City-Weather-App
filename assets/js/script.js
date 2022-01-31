@@ -139,6 +139,21 @@ var displayWeather = function(event) {
                             var uvLiContent = $("<h4>").addClass("weather-item-heading").text("UV Index:");
                             var uvSpan = $("<span>").addClass("weather-item-value mx-2")
                                 .text(uvIndex);
+                            var uvColorSpan = $("<span>").addClass("uv-color px-2");
+
+                            //Decide what styles to apply to the span
+                            if (uvIndex < 2) {
+                                uvColorSpan.addClass("uv-low").text("Low");
+                            }
+                            else if (uvIndex <= 5) {
+                                uvColorSpan.addClass("uv-med").text("Med");
+                            }
+                            else if (uvIndex <= 7) {
+                                uvColorSpan.addClass("uv-high").text("High");
+                            }
+                            else {
+                                uvColorSpan.addClass("uv-danger").text("Danger");
+                            }
 
                             //TODO: Determine what color coded class to apply based on UV index
 
@@ -146,6 +161,7 @@ var displayWeather = function(event) {
                             //Append h4 and span value to li
                             currentUVLi.append(uvLiContent);
                             currentUVLi.append(uvSpan);
+                            currentUVLi.append(uvColorSpan);
 
                             //Append list items to ul
                             currentWeatherList.append(currentTempLi);
@@ -166,7 +182,19 @@ var displayWeather = function(event) {
                             $("#uv-heading").children("span").text(uvIndex);
 
                             //Don't forget to replace the class assigned to the uv index
-
+                            //Decide what styles to apply to the span
+                            if (uvIndex < 2) {
+                                $("#uv-heading").children(".uv-color").addClass("uv-low").text("Low");
+                            }
+                            else if (uvIndex <= 5) { 
+                                $("#uv-heading").children(".uv-color").addClass("uv-med").text("Med");
+                            }
+                            else if (uvIndex <= 7) {
+                                $("#uv-heading").children(".uv-color").addClass("uv-high").text("High");
+                            }
+                            else {
+                                $("#uv-heading").children(".uv-color").addClass("uv-danger").text("Danger");
+                            }
                         }
 
                         //Loop through each of the next 5 days' forecast values and add them to
