@@ -4,13 +4,44 @@ var currentDate = moment().format("L");
 //List to append objects to and save to localStorage
 var searchHistory = [];
 
+//Default city name that can be modified depending on click
+var cityName;
+
+
 //Function to load the city search history from localStorage
 var loadHistory = function() {
     var searches = JSON.parse(localStorage.getItem("searches"));
     console.log(searches);
-    for (var i = 0; i < searches.length; i++) {
-        console.log("searches[i]:", searches[i]);
-    };
+
+    //If there is nothing in localStorage, display "No Search History" to page
+    if (!localStorage.getItem("searches")) {
+        $(".history-heading").text("No Search History");
+    }
+    else {
+        //Clear any prior elements from the page and re-load them with the most current history
+        //from localStorage
+
+        //Rename history heading
+        $(".history-heading").text("Search History:");
+
+        //Create elements
+        for (var i = 0; i < searches.length; i++) {
+            console.log("searches[i]:", searches[i]);
+            var historyBtn = $("<button>").text(searches[i])
+                .addClass("btn btn-light border border-secondary text-center w-100 shadow p-2 m-2 text-secondary history-btn");
+            
+            //Append to DOM
+            $("#history-section").append(historyBtn);
+
+            historyBtn.on("click", function(event) {
+                console.log("Clicked button.");
+                cityName = historyBtn.text();
+                console.log("City Name:", cityName);")"
+                displayWeather(event);
+            });
+
+        };
+    }
 }
 
 //Function to send history to localStorage
@@ -38,9 +69,8 @@ var displayWeather = function(event) {
 
     //Make a server fetch request
     //endpoint: http://api.openweathermap.org/data/2.5/forecast?id=524901&appid={API key}
-    var cityInput = $("#cityName").val().trim();
     var apiKey = "d3004c2539e658963d01367f338739e6";
-    var requestURL = "http://api.openweathermap.org/data/2.5/weather?q="+cityInput+"&units=imperial&appid="+apiKey;
+    var requestURL = "http://api.openweathermap.org/data/2.5/weather?q="+cityName+"&units=imperial&appid="+apiKey;
 
     fetch(requestURL).then(function(response) {
         response.json().then(function(data) {
@@ -48,7 +78,10 @@ var displayWeather = function(event) {
             if (response.ok) {
 
                 //Save the user's input to localStorage so it can be added to history
-                saveSearch(cityInput);
+                saveSearch(cityName);
+
+                //Load history
+                loadHistory;
 
                 var lat = data.coord.lat;
                 var lon = data.coord.lon;
@@ -69,7 +102,7 @@ var displayWeather = function(event) {
                             console.log("No text content in main weather section.");
 
                             //Define elements and their values...
-                            var mainHeader = $("<h3>").text(cityInput);
+                            var mainHeader = $("<h3>").text(cityName);
                             var currentWeatherDate = $("<span>").text(date);
                             var currentWeatherList = $("<ul>")
                                 .addClass("weather-data px-0 py-1");
@@ -135,7 +168,7 @@ var displayWeather = function(event) {
                             mainWeatherDiv.append(currentWeatherList);
                         }
                         else {
-                            $("#mainWeather").children("h3").text(cityInput);
+                            $("#mainWeather").children("h3").text(cityName);
                             $("#temp-heading").children("span").text(temp+" degrees fahrenheit");
                             $("#wind-heading").children("span").text(wind+" mph");
                             $("#humidity-heading").children("span").text(humidity+"%");
@@ -211,7 +244,12 @@ var displayWeather = function(event) {
 
 }
 
-//form event listener...
-$("#city-form").on("submit", displayWeather);
+//load history from localStorage
+loadHistory();
+console.log(cityName);
 
-//
+//form event listener...
+$("main").on("submit", "#city-form", function(event) {
+    cityName = $("#cityName").val().trim();
+    displayWeather(event);
+});
