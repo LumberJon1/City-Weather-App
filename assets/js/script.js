@@ -20,6 +20,9 @@ var loadHistory = function() {
     else {
         //Clear any prior elements from the page and re-load them with the most current history
         //from localStorage
+        $(".history-btn").each(function() {
+            $(this).remove();
+        });
 
         //Rename history heading
         $(".history-heading").text("Search History:");
@@ -81,7 +84,7 @@ var displayWeather = function(event) {
                 saveSearch(cityName);
 
                 //Load history
-                loadHistory;
+                loadHistory();
 
                 var lat = data.coord.lat;
                 var lon = data.coord.lon;
