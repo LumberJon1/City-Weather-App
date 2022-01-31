@@ -2,16 +2,21 @@
 var currentDate = moment().format("L");
 
 //List to append objects to and save to localStorage
-var searchHistory = [];
+var searchHistory;
+//If there is no local storage yet, initialize searchHistory to an empty array
+if (!JSON.parse(localStorage.getItem("searches"))) {
+    searchHistory = [];
+}
+else {
+    searchHistory = JSON.parse(localStorage.getItem("searches"));
+}
 
 //Default city name that can be modified depending on click
 var cityName;
 
-
 //Function to load the city search history from localStorage
 var loadHistory = function() {
     var searches = JSON.parse(localStorage.getItem("searches"));
-    console.log(searches);
 
     //If there is nothing in localStorage, display "No Search History" to page
     if (!localStorage.getItem("searches")) {
@@ -29,46 +34,25 @@ var loadHistory = function() {
 
         //Create elements
         for (var i = 0; i < searches.length; i++) {
-            console.log("searches[i]:", searches[i]);
             var historyBtn = $("<button>").text(searches[i])
                 .addClass("btn btn-light border border-secondary text-center w-100 shadow p-2 m-2 text-secondary history-btn");
             
             //Append to DOM
             $("#history-section").append(historyBtn);
-
-            historyBtn.on("click", function(event) {
-                console.log("Clicked button.");
-                cityName = historyBtn.text();
-                console.log("City Name:", cityName);")"
-                displayWeather(event);
-            });
-
         };
     }
 }
 
 //Function to send history to localStorage
 var saveSearch = function(searchItem) {
-    //Check whether the search term already exists in the local array and only push if it isn't
-    //a duplicate city.
-    if (searchHistory.includes(searchItem)) {
-        console.log("Duplicate detected.  Will not push duplicate.");
-        localStorage.setItem("searches", JSON.stringify(searchHistory));
-    }
-    else {
-        //If there is no duplicate, push
-        console.log("saving "+searchItem+" to searchHistory array...");
-        searchHistory.push(searchItem);
-        console.log("Saving array to localStorage...");
-        localStorage.setItem("searches", JSON.stringify(searchHistory));
-    }
-    console.log("Local storage now contains:", localStorage.getItem("searches"));
+    //If there is no duplicate, push
+    searchHistory.push(searchItem);
+    localStorage.setItem("searches", JSON.stringify(searchHistory));
 }
 
 //form handler...
 var displayWeather = function(event) {
     event.preventDefault();
-    //take the input string and trim
 
     //Make a server fetch request
     //endpoint: http://api.openweathermap.org/data/2.5/forecast?id=524901&appid={API key}
@@ -81,7 +65,12 @@ var displayWeather = function(event) {
             if (response.ok) {
 
                 //Save the user's input to localStorage so it can be added to history
-                saveSearch(cityName);
+                if (searchHistory.includes(cityName)) {
+                    localStorage.setItem("searches", JSON.stringify(searchHistory));
+                }
+                else {
+                    saveSearch(cityName);
+                }
 
                 //Load history
                 loadHistory();
@@ -102,7 +91,6 @@ var displayWeather = function(event) {
                         //Create the parent div that will hold current city weather info
                         var mainWeatherDiv = $("#mainWeather");
                         if (mainWeatherDiv.children("h3").text() === "") {
-                            console.log("No text content in main weather section.");
 
                             //Define elements and their values...
                             var mainHeader = $("<h3>").text(cityName);
@@ -236,23 +224,18 @@ var displayWeather = function(event) {
             }
         })
     })
-
-    //If the fetch is successful, push to localStorage
-
-    //Take the city name and append to the search history section as a clickable link
-
-    //Add an event listener to that button
-
-    //Call the handler for the main weather section
-
-}
+};
 
 //load history from localStorage
 loadHistory();
-console.log(cityName);
 
 //form event listener...
 $("main").on("submit", "#city-form", function(event) {
     cityName = $("#cityName").val().trim();
+    displayWeather(event);
+});
+
+$("main").on("click", ".history-btn", function(event) {
+    cityName = $(event.target).text();
     displayWeather(event);
 });
