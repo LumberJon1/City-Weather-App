@@ -10,6 +10,7 @@ cities without repetitive typing.
 ![screenshot](./assets/images/screenshot.JPG)
 
 ## Deployed Link
+https://lumberjon1.github.io/City-Weather-App/
 
 ## Tools
 * Bootstrap
