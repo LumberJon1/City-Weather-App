@@ -86,15 +86,18 @@ var displayWeather = function(event) {
                         var wind = data2.current.wind_speed;
                         var humidity = data2.current.humidity;
                         var uvIndex = data2.current.uvi;
+                        // console.log(data2.current.weather[0].icon);
                         var icon = data2.current.weather[0].icon;
 
                         //Create the parent div that will hold current city weather info
                         var mainWeatherDiv = $("#mainWeather");
-                        if (mainWeatherDiv.children("h3").text() === "") {
+                        if (mainWeatherDiv.children("div").children("h3").text() === "") {
 
                             //Define elements and their values...
-                            var mainHeader = $("<h3>").text(cityName);
-                            var currentWeatherDate = $("<span>").text(date);
+                            var weatherHeaderDiv = $("<div>").addClass("bg-primary text-light w-100 text-center");
+                            var mainHeader = $("<h3>").text(cityName).attr("id", "cityHeader");
+                            var currentWeatherDate = $("<span>").text(date).attr("id", "currentDate");
+                            var weatherIcon = $("<img>").attr("src", "http://openweathermap.org/img/wn/"+icon+"@2x.png").attr("id", "weatherIcon");
                             var currentWeatherList = $("<ul>")
                                 .addClass("weather-data px-0 py-1");
 
@@ -155,9 +158,6 @@ var displayWeather = function(event) {
                                 uvColorSpan.addClass("uv-danger").text("Danger");
                             }
 
-                            //TODO: Determine what color coded class to apply based on UV index
-
-
                             //Append h4 and span value to li
                             currentUVLi.append(uvLiContent);
                             currentUVLi.append(uvSpan);
@@ -170,12 +170,15 @@ var displayWeather = function(event) {
                             currentWeatherList.append(currentUVLi);
 
                             //Append h3, date, and ul to the main weather div
-                            mainWeatherDiv.append(mainHeader);
-                            mainWeatherDiv.append(currentWeatherDate);
+                            weatherHeaderDiv.append(mainHeader);
+                            weatherHeaderDiv.append(currentWeatherDate);
+                            mainWeatherDiv.append(weatherHeaderDiv);
+                            mainWeatherDiv.append(weatherIcon);
                             mainWeatherDiv.append(currentWeatherList);
                         }
                         else {
-                            $("#mainWeather").children("h3").text(cityName);
+                            $("#cityHeader").text(cityName);
+                            $("#weatherIcon").attr("src", "http://openweathermap.org/img/wn/"+icon+"@2x.png");
                             $("#temp-heading").children("span").text(temp+" degrees fahrenheit");
                             $("#wind-heading").children("span").text(wind+" mph");
                             $("#humidity-heading").children("span").text(humidity+"%");
@@ -211,21 +214,22 @@ var displayWeather = function(event) {
                                 var dayTemp = forecastArray[i].temp.day;
                                 var dayWind = forecastArray[i].wind_speed;
                                 var dayHumid = forecastArray[i].humidity;
-                                //var dayIcon = forecastArray[i][0].icon;
-
-                                //Use the values to populate new elements
-                                var cardDiv = $("<div>").addClass("card mx-auto day-"+i)
-                                    .attr("style", "width: 18vw");
+                                var dayIcon = (forecastArray[i].weather[0].icon);
                                 
-                                var cardTitle = $("<h4>").addClass("card-title bg-secondary text-white text-center shadow")
-                                    .text(moment().add(i+1, "days").format("dddd"));
+                                //Use the values to populate new elements
+                                var cardDiv = $("<div>").addClass("card m-2 d-flex flex-column align-items-center w-100 w-lg-auto day-"+i);
+                                
+                                var cardTitle = $("<h4>").addClass("card-title bg-secondary text-white w-100 text-center shadow")
+                                    .text(moment().add(i+1, "days").format("dddd, L"));
 
                                 var cardBodyDiv = $("<div>").addClass("card-body");
+                                var cardIcon = $("<img>").attr("src", "http://openweathermap.org/img/wn/"+dayIcon+"@2x.png");
                                 var tempP = $("<p>").addClass("card-text day-temp").text(dayTemp+" degrees");
                                 var windP = $("<p>").addClass("card-text day-wind").text(dayWind+" mph");
                                 var humidP = $("<p>").addClass("card-text day-humid").text(dayHumid+"%");
 
                                 //Append
+                                cardBodyDiv.append(cardIcon);
                                 cardBodyDiv.append(tempP);
                                 cardBodyDiv.append(windP);
                                 cardBodyDiv.append(humidP);
