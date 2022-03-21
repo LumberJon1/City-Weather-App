@@ -57,7 +57,7 @@ var displayWeather = function(event) {
     //Make a server fetch request
     //endpoint: http://api.openweathermap.org/data/2.5/forecast?id=524901&appid={API key}
     var apiKey = "d3004c2539e658963d01367f338739e6";
-    var requestURL = "http://api.openweathermap.org/data/2.5/weather?q="+cityName+"&units=imperial&appid="+apiKey;
+    var requestURL = "https://api.openweathermap.org/data/2.5/weather?q="+cityName+"&units=imperial&appid="+apiKey;
 
     fetch(requestURL).then(function(response) {
         response.json().then(function(data) {
